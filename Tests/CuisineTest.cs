@@ -90,6 +90,7 @@ namespace BestRestaurant
       Cuisine testCuisine = new Cuisine("Chinese Food");
       testCuisine.Save();
       testCuisine.Update("Italian Food");
+
       Cuisine newCuisine = new Cuisine("Italian Food");
 
       Assert.Equal(testCuisine.GetName(), newCuisine.GetName());
@@ -103,10 +104,11 @@ namespace BestRestaurant
       Cuisine testCuisine2 = new Cuisine("Indian Food");
       testCuisine2.Save();
       testCuisine2.Delete();
+
       List<Cuisine> testCousineList = new List<Cuisine> {testCuisine1};
       List<Cuisine> testCousineList2 = Cuisine.GetAll();
-      Assert.Equal(testCousineList, testCousineList2);
 
+      Assert.Equal(testCousineList, testCousineList2);
     }
     public void Dispose()
     {

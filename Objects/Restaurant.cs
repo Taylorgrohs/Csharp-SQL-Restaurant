@@ -206,7 +206,7 @@ namespace BestRestaurant
       while(rdr.Read())
       {
         this._name = rdr.GetString(0);
-        this._description = rdr.GetString(1);
+        this._description = rdr.GetString(0);
       }
       if (rdr != null)
       {

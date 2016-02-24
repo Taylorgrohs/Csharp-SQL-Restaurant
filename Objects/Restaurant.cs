@@ -36,13 +36,13 @@ namespace BestRestaurant
     }
     public void SetDescription(string newDescription)
     {
-      _description = newDescription
+      _description = newDescription;
     }
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
-      SqlCommand cmd = new SqlCommand("DELETE FROM restaurants;", conn);
+      SqlCommand cmd = new SqlCommand("DELETE FROM restaurant;", conn);
       cmd.ExecuteNonQuery();
     }
 
@@ -59,7 +59,7 @@ namespace BestRestaurant
         bool nameEquality = this.GetName() == newRestaurant.GetName();
         bool descriptionEquality = this.GetDescription() == newRestaurant.GetDescription();
         bool cuisineEquality = this.GetCuisineId() == newRestaurant.GetCuisineId();
-        return (idEquality && nameEquality && descriptionEquality && categoryEquality);
+        return (idEquality && nameEquality && descriptionEquality && cuisineEquality);
       }
     }
     public int GetCuisineId()
@@ -78,13 +78,13 @@ namespace BestRestaurant
       SqlDataReader rdr = null;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT * FROM restaurants;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM restaurant;", conn);
       rdr = cmd.ExecuteReader();
 
       while(rdr.Read())
       {
         int restaurantId = rdr.GetInt32(0);
-        string restaurantName = rdr.GetString(1)
+        string restaurantName = rdr.GetString(1);
         string restaurantDescription = rdr.GetString(2);
         int restaurantCuisineId = rdr.GetInt32(3);
         Restaurant newRestaurant = new Restaurant(restaurantName, restaurantDescription, restaurantCuisineId, restaurantId);
@@ -107,7 +107,7 @@ namespace BestRestaurant
       SqlDataReader rdr;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO restaurants (name, description, category_id) OUTPUT INSERTED.id VALUES (@RestaurantName, @RestaurantDescription, @RestaurantCuisineId);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO restaurant (name, description, cuisine_id) OUTPUT INSERTED.id VALUES (@RestaurantName, @RestaurantDescription, @RestaurantCuisineId);", conn);
 
       SqlParameter nameParameter = new SqlParameter();
       nameParameter.ParameterName = "@RestaurantName";
@@ -147,7 +147,7 @@ namespace BestRestaurant
       SqlDataReader rdr = null;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT * FROM restaurants WHERE id = @RestaurantId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM restaurant WHERE id = @RestaurantId;", conn);
       SqlParameter restaurantIdParameter = new SqlParameter();
       restaurantIdParameter.ParameterName = "@RestaurantId";
       restaurantIdParameter.Value = id.ToString();
@@ -185,16 +185,16 @@ namespace BestRestaurant
       SqlDataReader rdr;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("UPDATE restaurants SET name = @NewName OUTPUT INSERTED.name WHERE id = @RestaurantId; UPDATE restaurants SET description = @NewDescription OUTPUT INSERTED.description WHERE id = @RestaurantId;", conn);
+      SqlCommand cmd = new SqlCommand("UPDATE restaurant SET name = @NewName OUTPUT INSERTED.name WHERE id = @RestaurantId; UPDATE restaurant SET description = @NewDescription OUTPUT INSERTED.description WHERE id = @RestaurantId;", conn);
 
       SqlParameter newNameParameter = new SqlParameter();
       newNameParameter.ParameterName = "@NewName";
       newNameParameter.Value = newName;
       cmd.Parameters.Add(newNameParameter);
 
-      SqlParameter NewDescriptionParameter = new SqlParameter();
-      NewDescriptionParameter.ParameterName = "@NewDescription";
-      NewDescriptionParameter.Value = newDescription;
+      SqlParameter newDescriptionParameter = new SqlParameter();
+      newDescriptionParameter.ParameterName = "@NewDescription";
+      newDescriptionParameter.Value = newDescription;
       cmd.Parameters.Add(newDescriptionParameter);
 
       SqlParameter restaurantIdParameter = new SqlParameter();
@@ -223,7 +223,7 @@ namespace BestRestaurant
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("DELETE FROM restaurants WHERE id = @RestaurantId;", conn);
+      SqlCommand cmd = new SqlCommand("DELETE FROM restaurant WHERE id = @RestaurantId;", conn);
 
       SqlParameter restaurantIdParameter = new SqlParameter();
       restaurantIdParameter.ParameterName = "@RestaurantId";
@@ -236,6 +236,10 @@ namespace BestRestaurant
       {
         conn.Close();
       }
+    }
+    public override int GetHashCode()
+    {
+      return 0;
     }
   }
 }

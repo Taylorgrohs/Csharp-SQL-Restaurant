@@ -68,7 +68,7 @@ namespace BestRestaurant
     }
 
     [Fact]
-    public void Test_GetTasks_RetrievesAllRestaurantsWithCuisine()
+    public void Test_GetRestaurants_RetrievesAllRestaurantsWithCuisine()
     {
       Cuisine testCuisine = new Cuisine("Chinese Food");
       testCuisine.Save();
@@ -84,6 +84,30 @@ namespace BestRestaurant
       Assert.Equal(testRestaurantList, resultRestaurantList);
     }
 
+    [Fact]
+    public void Test_Update_CuisineName()
+    {
+      Cuisine testCuisine = new Cuisine("Chinese Food");
+      testCuisine.Save();
+      testCuisine.Update("Italian Food");
+      Cuisine newCuisine = new Cuisine("Italian Food");
+
+      Assert.Equal(testCuisine.GetName(), newCuisine.GetName());
+    }
+
+    [Fact]
+    public void Test_Delete_CuisineName()
+    {
+      Cuisine testCuisine1 = new Cuisine("Chinese Food");
+      testCuisine1.Save();
+      Cuisine testCuisine2 = new Cuisine("Indian Food");
+      testCuisine2.Save();
+      testCuisine2.Delete();
+      List<Cuisine> testCousineList = new List<Cuisine> {testCuisine1};
+      List<Cuisine> testCousineList2 = Cuisine.GetAll();
+      Assert.Equal(testCousineList, testCousineList2);
+
+    }
     public void Dispose()
     {
       Restaurant.DeleteAll();

@@ -70,6 +70,40 @@ namespace BestRestaurant
     {
       _cuisineId = newCuisineId;
     }
+
+    public List<Review> GetReviews()
+    {
+      SqlConnection conn = DB.Connection();
+      SqlDataReader rdr = null;
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM review WHERE restaurant_id = @restaurant_id;", conn);
+      SqlParameter restaurantIdParameter = new SqlParameter();
+      restaurantIdParameter.ParameterName = "@restaurant_id";
+      restaurantIdParameter.Value = this.GetId();
+      cmd.Parameters.Add(restaurantIdParameter);
+      rdr = cmd.ExecuteReader();
+
+      List<Review> reviews = new List<Review> {};
+      while(rdr.Read())
+      {
+        int reviewId = rdr.GetInt32(0);
+        string reviewDescription = rdr.GetString(1);
+        int reviewRestaurantId = rdr.GetInt32(2);
+        Review newReview = new Review(reviewDescription, reviewRestaurantId, reviewId);
+        reviews.Add(newReview);
+      }
+      if(rdr != null)
+      {
+        rdr.Close();
+      }
+      if(conn != null)
+      {
+        conn.Close();
+      }
+      return reviews;
+    }
+
     public static List<Restaurant> GetAll()
     {
       List<Restaurant> AllRestaurants = new List<Restaurant>{};
@@ -118,7 +152,7 @@ namespace BestRestaurant
       descriptionParameter.Value = this.GetDescription();
 
       SqlParameter cuisineIdParameter = new SqlParameter();
-      cuisineIdParameter.ParameterName = "@restaurantCuisineId";
+      cuisineIdParameter.ParameterName = "@RestaurantCuisineId";
       cuisineIdParameter.Value = this.GetCuisineId();
 
       cmd.Parameters.Add(nameParameter);

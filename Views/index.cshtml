@@ -11,10 +11,13 @@
       <h2>List of Cuisines:</h2>
       <ul>
         @foreach (var i in @Model)
-        <li><a href="/cuisines/@cuisine.GetId()">@i.GetName()</a></li>
-    }
-      </ul>
-    <h4><a href="/categories">View Cuisines</a></h4>
-    <h4><a href="/tasks">View Restaurants</a></h4>
+        {
+        <li><a href="/cuisines/@i.GetId()">@i.GetName()</a></li>
+      }
+    </ul>
+      }
+
+    <h4><a href="/cuisines">View Cuisines</a></h4>
+    <h4><a href="/restaurants">View Restaurants</a></h4>
   </body>
 </html>

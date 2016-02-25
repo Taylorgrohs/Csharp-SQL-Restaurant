@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Best Restaurant</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+  </head>
+  <body>
+    <h1>Add a new Review</h1>
+    <form action="/review/new" method="post">
+      <label for="review-description">Write your Review</label>
+      <input type="text" name="review-description">
+      <select name="restaurant-id">
+        @foreach(var restaurant in Model)
+        {
+          <option value="@restaurant.GetId()">@restaurant.GetName()</option>
+        }
+      </select>
+      <button type="submit">Add review</button>
+    </form>
+    <p><a href="/">Home</a></p>
+    <p><a href="/restaurants">View all restaurants</a></p>
+  </body>
+</html>

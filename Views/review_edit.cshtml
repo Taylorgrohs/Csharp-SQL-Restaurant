@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Best Restaurant</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+  </head>
+  <body>
+    <h1>Best Restaurant</h1>
+    <hr/>
+    <h2>Edit review: @Model.GetDescription()</h2>
+    <form action="/review/edit/@Model.GetId()" method="post">
+      <input type="hidden" name="_method" value="PATCH">
+      <input type="hidden" name="review-id" value="@Model.GetId()">
+      <label for="review-description">Write your review here:</label>
+      <input type="text" name="review-description" id="review-description" value="@Model.GetDescription()">
+      <button type="submit">Submit</button>
+    </form>
+    <h4><a href="/">Home</a></h4>

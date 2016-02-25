@@ -15,7 +15,7 @@
          <ol>
            @foreach (var restaurant in @Model["restaurants"])
            {
-             <li>@restaurant.GetName() - @restaurant.GetDescription()  <a href="/restaurant/edit/@restaurant.GetId()">Edit</a> | <a href="/restaurant/delete/@restaurant.GetId()">Delete</a></li>
+             <li><a href="/restaurant/@restaurant.GetId()">@restaurant.GetName()</a> - @restaurant.GetDescription()  <a href="/restaurant/edit/@restaurant.GetId()">Edit</a> | <a href="/restaurant/delete/@restaurant.GetId()">Delete</a></li>
            }
          </ol>
        }

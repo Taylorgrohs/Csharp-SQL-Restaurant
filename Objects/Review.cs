@@ -80,7 +80,7 @@ namespace BestRestaurant
 
       SqlParameter restaurantIdParameter = new SqlParameter();
       restaurantIdParameter.ParameterName = "@ReviewRestaurantId";
-      restaurantIdParameter.Value = this.GetCuisineId();
+      restaurantIdParameter.Value = this.GetRestaurantId();
 
       cmd.Parameters.Add(descriptionParameter);
       cmd.Parameters.Add(restaurantIdParameter);
@@ -153,12 +153,12 @@ namespace BestRestaurant
       SqlParameter reviewIdParameter = new SqlParameter();
       reviewIdParameter.ParameterName = "@ReviewId";
       reviewIdParameter.Value = this.GetId();
-      cmd.Parameters.Add(restaurantIdParameter);
+      cmd.Parameters.Add(reviewIdParameter);
       rdr = cmd.ExecuteReader();
 
       while(rdr.Read())
       {
-        this._description = rdr.GetString(1);
+        this._description = rdr.GetString(0);
       }
       if (rdr != null)
       {

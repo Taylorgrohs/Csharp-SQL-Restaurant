@@ -39,6 +39,19 @@ namespace BestRestaurant
         return View["success.cshtml"];
       };
 
+      Get["/review/new"] = _ =>
+      {
+        List<Restaurant> allRestaurants = Restaurant.GetAll();
+        return View["review_form.cshtml", allRestaurants];
+      };
+
+      Post["/review/new"] = _ =>
+      {
+        Review newReview = new Review(Request.Form["review-description"], Request.Form["restaurant-id"]);
+        newReview.Save();
+        return View["success.cshtml"];
+      };
+
       Get["/restaurants/new"] = _ =>
       {
         List<Cuisine> allCuisines = Cuisine.GetAll();
@@ -55,7 +68,16 @@ namespace BestRestaurant
       Post["/restaurants/delete"] = _ =>
       {
         Restaurant.DeleteAll();
-        return View["cleraed.cshtml"];
+        return View["cleared.cshtml"];
+      };
+
+      Get["/restaurant/{id}"] = parameters => {
+        Dictionary<string, object> model = new Dictionary<string, object>();
+        var SelectedRestaurant = Restaurant.Find(parameters.id);
+        var RestaurantReviews = SelectedRestaurant.GetReviews();
+        model.Add("restaurant", SelectedRestaurant);
+        model.Add("review", RestaurantReviews);
+        return View["restaurant.cshtml", model];
       };
 
       Get["/cuisines/{id}"] = parameters => {
@@ -122,6 +144,32 @@ namespace BestRestaurant
       {
         Restaurant SelectedRestaurant = Restaurant.Find(parameters.id);
         SelectedRestaurant.Delete();
+        return View["success.cshtml"];
+      };
+
+      Get["review/edit/{id}"] = parameters =>
+      {
+        Review selectedReview = Review.Find(parameters.id);
+        return View["review_edit.cshtml", selectedReview];
+      };
+
+      Patch["review/edit/{id}"] = parameters =>
+      {
+        Review selectedReview = Review.Find(parameters.id);
+        selectedReview.Update(Request.Form["review-description"]);
+        return View["success.cshtml"];
+      };
+
+      Get["review/delete/{id}"] = parameters =>
+      {
+        Review selectedReview = Review.Find(parameters.id);
+        return View["review_delete.cshtml", selectedReview];
+      };
+
+      Delete["review/delete/{id}"] = parameters =>
+      {
+        Review selectedReview = Review.Find(parameters.id);
+        selectedReview.Delete();
         return View["success.cshtml"];
       };
     }

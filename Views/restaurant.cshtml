@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Best Restaurant</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+  </head>
+  <body>
+    <h2>@Model["restaurant"].GetName() - @Model["restaurant"].GetDescription() </h2>
+    <h3>Reviews:</h3>
+    @if (@Model["review"].Count == 0)
+         {
+           <p>No reviews have been added yet!</p>
+         }
+         else
+         {
+          <ol>
+            @foreach(var review in @Model["review"])
+            {
+               <li>@review.GetDescription() <a href="/review/edit/@review.GetId()">Edit</a> | <a href="/review/delete/@review.GetId()">Delete</a></li>
+            }
+          </ol>
+         }
+         <p><a href="/review/new">Add a new review</a></p>
+         <p><a href="/">Home</a></p>
+   </body>
+</html>
